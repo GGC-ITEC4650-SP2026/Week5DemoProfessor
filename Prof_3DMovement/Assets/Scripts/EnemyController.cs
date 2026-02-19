@@ -5,12 +5,14 @@ public class EnemyController : MonoBehaviour
 {
     Transform playerTran;
     NavMeshAgent myAgent;
+    Renderer myRend;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerTran = GameObject.Find("Player").GetComponent<Transform>();
         myAgent = GetComponent<NavMeshAgent>();
+        myRend = GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -22,5 +24,14 @@ public class EnemyController : MonoBehaviour
         transform.forward = v.normalized;
         transform.position += transform.forward * Time.deltaTime;
         */
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        GameObject otherGo = collision.gameObject;
+        if(otherGo.tag == "Snowman")
+        {
+            myRend.enabled = false;
+        }
     }
 }
