@@ -3,10 +3,11 @@ using UnityEngine;
 public class SnowManController : MonoBehaviour
 {
     public float timeToLive;
+    //Collider[] myCols;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        //myCols = GetComponentsInChildren<Collider>();
     }
 
     // Update is called once per frame
@@ -23,4 +24,12 @@ public class SnowManController : MonoBehaviour
     {
         //Destroy(gameObject);
     }
+
+    /*
+    void OnTriggerExit(Collider other)
+    {
+        foreach(Collider c in myCols)
+            c.isTrigger = false;
+    }
+    */
 }

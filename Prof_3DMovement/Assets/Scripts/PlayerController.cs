@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 myRot;
 
     CharacterController myCC;
-
+    PlatformController platform;
     GameObject[] allEnemies;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
         myCC = GetComponent<CharacterController>();
         allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
         print("There are " + allEnemies.Length + " bad guys here!");
+        platform = null;
     }
 
     // Update is called once per frame
@@ -52,6 +53,19 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = transform.forward * v + transform.right * h;
         //transform.position += (dir * speed * Time.deltaTime);
         Vector3 total = (dir * speed) + airVel;
+        if(platform != null) // && (platform.airLocked || myCC.isGrounded))
+        {
+            total += platform.dir * platform.speed;
+            /*
+            if(myCC.isGrounded) {
+                total += platform.adjustGroundPlayerMotion();
+            }
+            else
+            {
+                total += platform.adjustAirPlayerMotion();
+            }
+            */
+        }
         myCC.Move(total * Time.deltaTime);
 
         //rotation
@@ -59,5 +73,11 @@ public class PlayerController : MonoBehaviour
         Vector3 rotDir = Vector3.up * mx;
         myRot += rotDir * rotSpeed * Time.deltaTime;
         transform.localEulerAngles = myRot;
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        GameObject otherGO = hit.gameObject;
+        platform = otherGO.GetComponent<PlatformController>();
     }
 }
