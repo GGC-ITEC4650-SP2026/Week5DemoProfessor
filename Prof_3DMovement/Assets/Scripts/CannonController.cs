@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CannonController : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class CannonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
             GameObject g = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             g.GetComponent<Rigidbody>().linearVelocity = transform.forward * bulletSpeed;
